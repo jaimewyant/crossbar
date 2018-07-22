@@ -178,7 +178,10 @@ if _HAS_PSUTIL:
             """
             self._pid = pid
             self._p = psutil.Process(pid)
-            self._cpus = sorted(self._p.cpu_affinity())
+            if sys.platform == 'darwin':
+                self._cpus = [1]
+            else:
+                self._cpus = sorted(self._p.cpu_affinity())
 
         @property
         def cpus(self):
